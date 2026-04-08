@@ -7,7 +7,7 @@
 ```bash
 # 1º Clone o repositório
 git clone https://github.com/EwertonDiniz/desafio-sistema-bancario.git
-cd BankMore
+cd desafio-sistema-bancario
 
 # 2º Suba os containers
 docker-compose up --build
