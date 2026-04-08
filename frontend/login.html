@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - BankMore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ui container" style="margin-top: 50px;">
+        <h1 class="ui center aligned header">BankMore - Login</h1>
+        <div class="ui centered grid">
+            <div class="eight wide column">
+                <form class="ui form" id="loginForm">
+                    <div class="field">
+                        <label>Número da Conta</label>
+                        <input type="text" name="numeroConta" placeholder="Digite seu número de conta" required>
+                    </div>
+                    <div class="field">
+                        <label>Senha</label>
+                        <input type="password" name="senha" placeholder="Digite sua senha" required>
+                    </div>
+                    <button class="ui primary button" type="submit">Entrar</button>
+                </form>
+                <div class="ui message error" id="message" style="display: none;"></div>
+                <br>
+                <p>Não tem conta? <a href="register.html">Cadastrar</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {
+                numeroConta: formData.get('numeroConta'),
+                senha: formData.get('senha')
+            };
+            try {
+                const response = await fetch('http://localhost:5001/api/Auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    const tokenValue = result.token || result.Token;
+                    localStorage.setItem('token', tokenValue);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const error = await response.text();
+                    document.getElementById('message').innerText = 'Erro no login: ' + error;
+                    document.getElementById('message').style.display = 'block';
+                }
+            } catch (error) {
+                document.getElementById('message').innerText = 'Erro de conexão: ' + error.message;
+                document.getElementById('message').style.display = 'block';
+            }
+        });
+    </script>
+    <div style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #e0e0e0; text-align: center; color: #666;">
+        <p style="margin-bottom: 15px; font-size: 13px; font-weight: 500;">DOCUMENTAÇÃO DAS APIs</p>
+        <p>
+            <a href="http://localhost:5001/swagger" target="_blank" style="color: #2185d0; margin: 0 20px; text-decoration: none; font-size: 14px;">📚 Conta Corrente</a>
+            <span style="color: #ccc;">|</span>
+            <a href="http://localhost:5002/swagger" target="_blank" style="color: #2185d0; margin: 0 20px; text-decoration: none; font-size: 14px;">📚 Transferência</a>
+        </p>
+    </div>
+</body>
+</html>

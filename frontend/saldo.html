@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Saldo - BankMore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ui inverted menu">
+        <div class="header item">BankMore</div>
+        <a class="item" href="dashboard.html">Dashboard</a>
+        <a class="item" href="transfer.html">Transferir</a>
+        <a class="item" href="credito.html">Crédito</a>
+        <a class="item" href="debito.html">Débito</a>
+        <a class="item" href="inativar.html">Inativar</a>
+        <div class="right menu">
+            <a class="item" onclick="logout()">Sair</a>
+        </div>
+    </div>
+
+    <div class="ui container section">
+        <h2 class="ui header" id="pageTitle">Saldo</h2>
+        <div class="ui segment card">
+            <div class="account-summary">
+                <div class="account-label">Conta atual</div>
+                <div class="account-number" id="accountNumber">---</div>
+                <div class="account-label">Titular</div>
+                <div class="account-name" id="accountName">---</div>
+            </div>
+            <div class="ui divider"></div>
+            <p>Veja o saldo disponível na sua conta corrente.</p>
+            <button class="ui blue button" id="btnSaldo">Ver Saldo</button>
+            <div class="ui message" id="message" style="display:none;"></div>
+            <div class="ui segment" id="saldoCard" style="display:none; margin-top: 24px;">
+                <h3 class="ui header">Saldo atual</h3>
+                <p class="ui header" id="saldoValue">R$ 0,00</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">Use esta página para consultar seu saldo sem alterar nenhum dado.</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        setupPage('Saldo');
+
+        document.getElementById('btnSaldo').addEventListener('click', async function() {
+            try {
+                const response = await fetch(`${apiUrls.conta}/api/Conta/saldo`, {
+                    headers: getAuthHeaders()
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('saldoValue').innerText = 'R$ ' + Number(data.saldo).toFixed(2);
+                    document.getElementById('saldoCard').style.display = 'block';
+                } else {
+                    showMessage('message', 'Erro ao obter saldo.', 'negative');
+                }
+            } catch (error) {
+                showMessage('message', 'Erro de conexão: ' + error.message, 'negative');
+            }
+        });
+    </script>
+</body>
+</html>

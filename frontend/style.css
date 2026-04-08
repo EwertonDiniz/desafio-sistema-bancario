@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #f4f6f8;
+    color: #1b1c1d;
+    font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.ui.inverted.menu {
+    background-color: #154a80 !important;
+    border: none !important;
+    flex-wrap: wrap;
+}
+
+.ui.menu .item,
+.ui.menu .header.item {
+    font-size: 0.95rem;
+}
+
+.ui.menu .header.item {
+    font-weight: 700;
+}
+
+.ui.container.section {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
+.ui.segment.card {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.ui.form .field label {
+    font-weight: 600;
+    color: #445365;
+}
+
+.ui.message {
+    max-width: 800px;
+    margin: 16px auto;
+}
+
+.main-grid {
+    margin-top: 24px;
+}
+
+.footer {
+    text-align: center;
+    color: #748089;
+    margin: 24px auto 40px;
+    padding-bottom: 24px;
+    max-width: 1100px;
+}
+
+.ui.card .content .header {
+    font-size: 1.05rem;
+}
+
+.ui.statistics .statistic {
+    min-width: 180px;
+}
+
+.ui.statistics .value {
+    font-size: 1.6rem !important;
+    line-height: 1.2 !important;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.ui.statistics .label {
+    font-size: 0.9rem !important;
+}
+
+.account-summary {
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    padding: 1.2rem 0;
+}
+
+.account-summary .account-number {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    letter-spacing: 0.02em;
+}
+
+.account-summary .account-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 0.4rem;
+    line-height: 1.2;
+}
+
+.account-summary .account-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7f8fa4;
+    margin-bottom: 0.35rem;
+}
+
+.account-summary {
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+.account-summary .account-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+}
+
+.account-summary .account-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    line-height: 1.2;
+}
+
+.account-summary .account-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7f8fa4;
+}
+
+.ui.divider {
+    margin: 1.5rem 0;
+}
+
+@media (max-width: 900px) {
+    .ui.container.section {
+        padding: 0 12px;
+    }
+
+    .ui.menu .item {
+        font-size: 0.9rem;
+    }
+
+    .ui.statistics .value {
+        font-size: 2rem !important;
+    }
+}

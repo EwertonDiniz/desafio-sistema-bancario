@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Transferência - BankMore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ui inverted menu">
+        <div class="header item">BankMore</div>
+        <a class="item" href="dashboard.html">Dashboard</a>
+        <a class="item active" href="transfer.html">Transferir</a>
+        <a class="item" href="credito.html">Crédito</a>
+        <a class="item" href="debito.html">Débito</a>
+        <a class="item" href="inativar.html">Inativar</a>
+        <div class="right menu">
+            <a class="item" onclick="logout()">Sair</a>
+        </div>
+    </div>
+
+    <div class="ui container section">
+        <h2 class="ui header" id="pageTitle">Transferência</h2>
+        <div class="ui segment card">
+            <p>Use este formulário para enviar valores para outra conta. Sua conta de origem é definida pelo login.</p>
+            <form class="ui form" id="transferForm">
+                <div class="field">
+                    <label>Conta de destino</label>
+                    <input type="text" name="contaDestinoNumero" placeholder="Número da conta destino" required>
+                </div>
+                <div class="field">
+                    <label>Valor</label>
+                    <input type="number" step="0.01" name="valor" placeholder="Valor a transferir" required>
+                </div>
+                <button class="ui green button" type="submit">Enviar transferência</button>
+            </form>
+            <div class="ui message" id="message" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="footer">A conta origem é preenchida automaticamente com base no usuário logado.</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        setupPage('Transferência');
+
+        document.getElementById('transferForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const payload = {
+                contaDestinoNumero: formData.get('contaDestinoNumero'),
+                valor: parseFloat(formData.get('valor')),
+                idempotentKey: Date.now().toString()
+            };
+            try {
+                const response = await fetch(`${apiUrls.transferencia}/api/Transferencia`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) {
+                    showMessage('message', 'Transferência realizada com sucesso!', 'positive');
+                    this.reset();
+                } else {
+                    showMessage('message', 'Erro ao realizar transferência.', 'negative');
+                }
+            } catch (error) {
+                showMessage('message', 'Erro de conexão: ' + error.message, 'negative');
+            }
+        });
+    </script>
+</body>
+</html>

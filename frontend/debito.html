@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Débito - BankMore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ui inverted menu">
+        <div class="header item">BankMore</div>
+        <a class="item" href="dashboard.html">Dashboard</a>
+        <a class="item" href="transfer.html">Transferir</a>
+        <a class="item" href="credito.html">Crédito</a>
+        <a class="item active" href="debito.html">Débito</a>
+        <a class="item" href="inativar.html">Inativar</a>
+        <div class="right menu">
+            <a class="item" onclick="logout()">Sair</a>
+        </div>
+    </div>
+
+    <div class="ui container section">
+        <h2 class="ui header" id="pageTitle">Débito</h2>
+        <div class="ui segment card">
+            <p>Registre um débito em qualquer conta. Preencha o número da conta e o valor.</p>
+            <form class="ui form" id="debitForm">
+                <div class="field">
+                    <label>Número da conta</label>
+                    <input type="text" name="numeroConta" placeholder="Número da conta" required>
+                </div>
+                <div class="field">
+                    <label>Valor</label>
+                    <input type="number" step="0.01" name="valor" placeholder="Valor do débito" required>
+                </div>
+                <button class="ui red button" type="submit">Registrar débito</button>
+            </form>
+            <div class="ui message" id="message" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="footer">Use esta página para retirar valor de uma conta direta.</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        setupPage('Débito');
+
+        document.getElementById('debitForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const payload = {
+                numeroConta: formData.get('numeroConta'),
+                valor: parseFloat(formData.get('valor'))
+            };
+            try {
+                const response = await fetch(`${apiUrls.conta}/api/Conta/debito`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) {
+                    showMessage('message', 'Débito realizado com sucesso!', 'positive');
+                    this.reset();
+                } else {
+                    showMessage('message', 'Erro ao realizar débito.', 'negative');
+                }
+            } catch (error) {
+                showMessage('message', 'Erro de conexão: ' + error.message, 'negative');
+            }
+        });
+    </script>
+</body>
+</html>

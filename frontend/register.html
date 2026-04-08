@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro - BankMore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ui container" style="margin-top: 50px;">
+        <h1 class="ui center aligned header">BankMore - Cadastro</h1>
+        <div class="ui centered grid">
+            <div class="eight wide column">
+                <form class="ui form" id="registerForm">
+                    <div class="field">
+                        <label>CPF</label>
+                        <input type="text" name="cpf" placeholder="Digite seu CPF" maxlength="11" required>
+                    </div>
+                    <div class="field">
+                        <label>Senha</label>
+                        <input type="password" name="senha" placeholder="Digite sua senha" required>
+                    </div>
+                    <div class="field">
+                        <label>Nome do Titular</label>
+                        <input type="text" name="nomeTitular" placeholder="Digite seu nome" required>
+                    </div>
+                    <button class="ui primary button" type="submit">Cadastrar</button>
+                </form>
+                <div class="ui message" id="message" style="display: none;"></div>
+                <br>
+                <p>Já tem conta? <a href="login.html">Login</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {
+                cpf: formData.get('cpf'),
+                senha: formData.get('senha'),
+                nomeTitular: formData.get('nomeTitular')
+            };
+            try {
+                const response = await fetch('http://localhost:5001/api/Auth/cadastrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    const accountNumber = result.numeroConta || result.NumeroConta || 'não disponível';
+                    const message = document.getElementById('message');
+                    message.className = 'ui positive message';
+                    message.innerText = 'Cadastro realizado com sucesso! Seu número de conta é: ' + accountNumber + '. Use esse número para receber transferências.';
+                    message.style.display = 'block';
+                    if (accountNumber !== 'não disponível') {
+                        localStorage.setItem('accountNumber', accountNumber);
+                    }
+                    setTimeout(() => window.location.href = 'login.html', 4000);
+                } else {
+                    const error = await response.text();
+                    const message = document.getElementById('message');
+                    message.className = 'ui negative message';
+                    message.innerText = 'Erro no cadastro: ' + error;
+                    message.style.display = 'block';
+                }
+            } catch (error) {
+                const message = document.getElementById('message');
+                message.className = 'ui negative message';
+                message.innerText = 'Erro de conexão: ' + error.message;
+                message.style.display = 'block';
+            }
+        });
+    </script>
+    <div style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #e0e0e0; text-align: center; color: #666;">
+        <p style="margin-bottom: 15px; font-size: 13px; font-weight: 500;">DOCUMENTAÇÃO DAS APIs</p>
+        <p>
+            <a href="http://localhost:5001/swagger" target="_blank" style="color: #2185d0; margin: 0 20px; text-decoration: none; font-size: 14px;">📚 Conta Corrente</a>
+            <span style="color: #ccc;">|</span>
+            <a href="http://localhost:5002/swagger" target="_blank" style="color: #2185d0; margin: 0 20px; text-decoration: none; font-size: 14px;">📚 Transferência</a>
+        </p>
+    </div>
+</body>
+</html>

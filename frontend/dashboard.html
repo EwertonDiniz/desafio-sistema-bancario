@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - BankMore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ui inverted menu">
+        <div class="header item">BankMore</div>
+        <a class="item active" href="dashboard.html">Dashboard</a>
+        <a class="item" href="saldo.html">Saldo</a>
+        <a class="item" href="transfer.html">Transferir</a>
+        <a class="item" href="credito.html">Crédito</a>
+        <a class="item" href="debito.html">Débito</a>
+        <a class="item" href="inativar.html">Inativar</a>
+        <div class="right menu">
+            <a class="item" onclick="logout()">Sair</a>
+        </div>
+    </div>
+
+    <div class="ui container section">
+        <h2 class="ui header" id="pageTitle">Dashboard</h2>
+        <div class="ui stackable grid main-grid">
+            <div class="eight wide column">
+                <div class="ui segment card">
+                    <div class="account-summary">
+                        <div class="account-number" id="accountNumber">---</div>
+                        <div class="account-label">Conta atual</div>
+                        <div class="account-name" id="accountName">---</div>
+                        <div class="account-label">Titular</div>
+                    </div>
+                    <div class="ui divider"></div>
+                    <p>Navegue para cada função usando os links acima.</p>
+                </div>
+            </div>
+            <div class="eight wide column">
+                <div class="ui segment card">
+                    <h3 class="ui header">Ações rápidas</h3>
+                    <div class="ui divided list">
+                        <div class="item">
+                            <i class="money bill alternate outline icon"></i>
+                            <div class="content">
+                                <a class="header" href="saldo.html">Consultar saldo</a>
+                                Verifique seu saldo atual.
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="exchange alternate icon"></i>
+                            <div class="content">
+                                <a class="header" href="transfer.html">Fazer transferência</a>
+                                Envie valores para outra conta.
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="plus circle icon"></i>
+                            <div class="content">
+                                <a class="header" href="credito.html">Creditar conta</a>
+                                Adicione saldo em qualquer conta.
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="minus circle icon"></i>
+                            <div class="content">
+                                <a class="header" href="debito.html">Debitar conta</a>
+                                Retire saldo de uma conta.
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="ban icon"></i>
+                            <div class="content">
+                                <a class="header" href="inativar.html">Inativar conta</a>
+                                Desative sua conta atual.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">Bank More.</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        setupPage('Dashboard');
+    </script>
+</body>
+</html>

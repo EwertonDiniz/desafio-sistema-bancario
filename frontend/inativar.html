@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Inativar Conta - BankMore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ui inverted menu">
+        <div class="header item">BankMore</div>
+        <a class="item" href="dashboard.html">Dashboard</a>
+        <a class="item" href="transfer.html">Transferir</a>
+        <a class="item" href="credito.html">Crédito</a>
+        <a class="item" href="debito.html">Débito</a>
+        <a class="item active" href="inativar.html">Inativar</a>
+        <div class="right menu">
+            <a class="item" onclick="logout()">Sair</a>
+        </div>
+    </div>
+
+    <div class="ui container section">
+        <h2 class="ui header" id="pageTitle">Inativar Conta</h2>
+        <div class="ui segment card">
+            <p>Informe sua senha para encerrar a conta atual. Esta operação remove o acesso.</p>
+            <form class="ui form" id="inactivateForm">
+                <div class="field">
+                    <label>Senha</label>
+                    <input type="password" name="senha" placeholder="Digite sua senha" required>
+                </div>
+                <button class="ui red button" type="submit">Inativar conta</button>
+            </form>
+            <div class="ui message" id="message" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="footer">Após inativar, você será redirecionado para o login.</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        setupPage('Inativar Conta');
+
+        document.getElementById('inactivateForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const payload = {
+                senha: formData.get('senha')
+            };
+            try {
+                const response = await fetch(`${apiUrls.conta}/api/Conta/inativar`, {
+                    method: 'PATCH',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) {
+                    showMessage('message', 'Conta inativada com sucesso! Redirecionando...', 'positive');
+                    setTimeout(logout, 2000);
+                } else {
+                    showMessage('message', 'Erro ao inativar conta.', 'negative');
+                }
+            } catch (error) {
+                showMessage('message', 'Erro de conexão: ' + error.message, 'negative');
+            }
+        });
+    </script>
+</body>
+</html>
