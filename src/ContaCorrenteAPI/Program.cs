@@ -1,8 +1,11 @@
 ﻿using ContaCorrenteAPI;
+using ContaCorrenteAPI.Application.Commands;
 using ContaCorrenteAPI.Application.Handlers;
 using ContaCorrenteAPI.Domain.Interfaces;
 using ContaCorrenteAPI.Infrastructure;
 using ContaCorrenteAPI.Infrastructure.Repositories;
+using FluentValidation;
+using MediatR;
 using Microsoft.Data.Sqlite;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -41,6 +44,8 @@ builder.Services.AddSingleton(sqliteConnection);
 builder.Services.AddScoped<IContaCorrenteRepository, ContaCorrenteRepository>();
 builder.Services.AddScoped<IMovimentoRepository, MovimentoRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<CadastrarContaCommandHandler>());
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddValidatorsFromAssemblyContaining<CadastrarContaCommandValidator>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

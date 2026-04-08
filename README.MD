@@ -10,7 +10,7 @@ git clone https://github.com/EwertonDiniz/desafio-sistema-bancario.git
 cd desafio-sistema-bancario
 
 # 2º Suba os containers
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 # Acesse no navegador:
@@ -30,4 +30,9 @@ dotnet test
 
 cd ../TransferenciaAPI.Tests
 dotnet test
+
+# Teste de integração (proj. deve estar rodando - docker-compose up --build -d)
+cd ../ContaCorrenteAPI.IntegrationTests
+dotnet test
+
 ```
